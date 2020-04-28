@@ -1,70 +1,47 @@
 package com.management.feeTraining.dto;
 
-import com.management.feeTraining.entities.Role;
+import com.management.feeTraining.entities.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class UserDto {
 
     private int id;
-    private String name;
     private String username;
     private String password;
+    private String firstName;
+    private String lastName;
+    private Date dob;
     private String email;
-    private Set<Role> roles;
+    private boolean enabled;
+    private int fee;
+    private int feePaid;
+    private int due;
+    private List<String> roles;
 
-    public UserDto(int id, String name, String username, String password, String email, Set<Role> roles) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.roles = roles;
+    public User toUser() {
+        User user = new User();
+        user.setId(this.id);
+        user.setEmail(this.email);
+        user.setFirstName(this.firstName);
+        user.setLastName(this.lastName);
+        user.setUsername(this.username);
+        user.setPassword(this.password);
+        user.setDob(this.dob);
+        user.setEnabled(this.enabled);
+        user.setFee(this.fee);
+        user.setFeePaid(this.feePaid);
+        user.setDue(this.due);
+        return user;
     }
 
-    public UserDto() {
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

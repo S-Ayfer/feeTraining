@@ -13,7 +13,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-public class HibernateConfiguration {
+public class HiberConfig {
 
     @Value("${db.driver}")
     private String DRIVER_CLASS_NAME;
@@ -39,31 +39,37 @@ public class HibernateConfiguration {
     @Value("${hibernate.hbm2ddl.auto}")
     private String HIBERNATE_HBM2DDL_AUTO;
 
+    @Value("${hibernate.enable_lazy_load_no_trans}")
+    private String HIBERNATE_LAZY_LOAD_NO_TRANS;
+
+
+
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
-    LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-    sessionFactory.setDataSource(datasource());
-    sessionFactory.setPackagesToScan(PACKAGES_TO_SCAN);
-    Properties hibernateProperties = new Properties();
-    hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
-    hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
-    hibernateProperties.put("hibernate.hbm2ddl.auto", HIBERNATE_HBM2DDL_AUTO);
-    sessionFactory.setHibernateProperties(hibernateProperties);
-    return sessionFactory;
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(datasource());
+        sessionFactory.setPackagesToScan(PACKAGES_TO_SCAN);
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
+        hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
+        hibernateProperties.put("hibernate.hbm2ddl.auto", HIBERNATE_HBM2DDL_AUTO);
+        hibernateProperties.put("hibernate.enable_lazy_load_no_trans", HIBERNATE_LAZY_LOAD_NO_TRANS);
+        sessionFactory.setHibernateProperties(hibernateProperties);
+        return sessionFactory;
     }
 
     @Bean
     public DataSource datasource() {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
-    dataSource.setDriverClassName(DRIVER_CLASS_NAME);
-    return dataSource;
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+        dataSource.setDriverClassName(DRIVER_CLASS_NAME);
+        return dataSource;
     }
 
     @Bean
     public HibernateTransactionManager transactionManager() {
-    HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
-    hibernateTransactionManager.setSessionFactory(sessionFactory().getObject());
-    return hibernateTransactionManager;
-    //ayfer yildiz
-}
+        HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
+        hibernateTransactionManager.setSessionFactory(sessionFactory().getObject());
+        return hibernateTransactionManager;
+    }
+
 }
