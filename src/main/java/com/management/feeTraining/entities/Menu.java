@@ -1,6 +1,5 @@
 package com.management.feeTraining.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,11 +21,7 @@ public class Menu {
     @Enumerated(EnumType.STRING)
     private MenuType menu_type;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name =" role_id")
     private Role role;
-
-
-
 }

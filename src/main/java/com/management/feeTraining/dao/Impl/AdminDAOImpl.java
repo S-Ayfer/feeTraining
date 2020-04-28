@@ -1,19 +1,26 @@
 package com.management.feeTraining.dao.Impl;
 
 import com.management.feeTraining.dao.AdminDAO;
-import com.management.feeTraining.entities.Accountant;
-import com.management.feeTraining.entities.Student;
+import com.management.feeTraining.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Repository
+@Transactional
 public class AdminDAOImpl implements AdminDAO {
 
     @Autowired
     private SessionFactory sf;
+
+    @PersistenceContext
+    EntityManager em;
 
     public Session getSession() {
         Session session = sf.getCurrentSession();
@@ -23,51 +30,28 @@ public class AdminDAOImpl implements AdminDAO {
         return session;
     }
 
-
     @Override
-    public List<Accountant> findAllAccountant() {
-        return getSession().createQuery("From Accountant",Accountant.class)
-                .getResultList();
+    public List<User> getUsers() {
+        return em.createQuery("From User", User.class).getResultList();
     }
 
     @Override
-    public List<Student> findAllStudent() {
-        Query<Student> query = getSession().createQuery("FROM Student", Student.class);
-        return query.getResultList();
+    public User getUser(int id) {
+        return getSession().get(User.class, id);
     }
 
     @Override
-    public Accountant findByIdAccountant(int id) {
-
-        return getSession().get(Accountant.class,id);
+    public void createUser(User user) {
+        getSession().save(user);
     }
 
     @Override
-    public Student findByIdStudent(int id) {
-
-        return getSession().get(Student.class,id);
-    }
-    @Override
-    public void saveAccountant(Accountant accountant) {
-        getSession().saveOrUpdate(accountant);
+    public void updateUser(User user) {
+        getSession().update(user);
     }
 
     @Override
-    public void saveStudent(Student student) {
-        getSession().saveOrUpdate(student);
+    public void deleteUser(int id) {
+
     }
-
-    @Override
-    public void deleteAccountantById(int id) {
-
-        getSession().createQuery("DELETE FROM Accountant WHERE id=:idToDelete")
-                .setParameter("idToDelete", id).executeUpdate();
-    }
-    @Override
-    public void deleteStudentById(int id) {
-
-        getSession().createQuery("DELETE FROM Student WHERE id=:idToDelete")
-                .setParameter("idToDelete", id).executeUpdate();
-    }
-
 }

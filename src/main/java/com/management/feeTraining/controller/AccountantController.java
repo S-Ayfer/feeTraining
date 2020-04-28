@@ -6,8 +6,10 @@ import com.management.feeTraining.entities.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
+
+@RestController
+@RequestMapping ("/accountant")
 
 public class AccountantController {
 
@@ -27,14 +29,14 @@ public class AccountantController {
         return accountantService.getStudent(studentId);
     }
 
-    @PostMapping("")
-    public void createStudent(@Valid @RequestBody StudentDto student) {
+    @PostMapping("/create")
+    public void createStudent(@RequestBody StudentDto student) {
 
         accountantService.createStudent(student);
     }
 
     @DeleteMapping("{id}")
-    public void deleteStudent(@Valid @PathVariable() int sId) {
+    public void deleteStudent(@PathVariable() int sId) {
         accountantService.deleteStudent(sId);
     }
 

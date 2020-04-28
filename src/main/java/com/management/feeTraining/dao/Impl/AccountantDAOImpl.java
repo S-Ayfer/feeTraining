@@ -1,7 +1,6 @@
 package com.management.feeTraining.dao.Impl;
 
 import com.management.feeTraining.dao.AccountantDAO;
-import com.management.feeTraining.entities.Accountant;
 import com.management.feeTraining.entities.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,9 +8,11 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
+@Transactional
 public class AccountantDAOImpl implements AccountantDAO {
 
     @Autowired
@@ -48,11 +49,5 @@ public class AccountantDAOImpl implements AccountantDAO {
         .setParameter("id_del", id)
         .executeUpdate();
     }
-
-    @Override
-    public Accountant findByEmail(String email) {
-        return getSession().get(Accountant.class,email);
-    }
-
 
 }

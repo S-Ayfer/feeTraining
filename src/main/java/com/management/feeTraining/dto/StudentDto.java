@@ -1,16 +1,17 @@
 package com.management.feeTraining.dto;
 
-import lombok.*;
+import com.management.feeTraining.entities.Role;
+import lombok.Data;
 
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.Set;
+
+
 @Data
-@Getter
-@Setter
-@ToString
-public class StudentDto {
+public class StudentDto extends UserDto {
 
-   String name;
-   String email;
+   private int fee;
+   private int paidFee;
+   private int due;
+   private Set<Role> roles;
 
 }

@@ -1,43 +1,67 @@
 package com.management.feeTraining.controller;
 
 import com.management.feeTraining.Services.AdminService;
-import com.management.feeTraining.dto.StudentDto;
-import com.management.feeTraining.entities.Student;
+import com.management.feeTraining.Services.UserService;
+import com.management.feeTraining.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 
-import javax.validation.Valid;
 import java.util.List;
 
+@RestController
+@RequestMapping("/admin")
 public class AdminController {
 
 
     @Autowired
     private AdminService adminService;
 
-    @GetMapping("/")
-    public List<Student> getAllStudents() {
+    @Autowired
+    private UserService userService;
 
-        return adminService.getAllStudents();
+    @GetMapping("getAll")
+    public ResponseEntity<List<UserDto>> getAll() {
+        List<UserDto> user = adminService.getAllUsers();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/{studentId}")
-    public Student getStudent(int studentId) {
-
-        return adminService.getStudent(studentId);
+    @GetMapping(value="{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable int id) {
+        UserDto user = adminService.getUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("")
-    public void createStudent(@Valid @RequestBody StudentDto student) {
-
-        adminService.save(student);
+    @PostMapping(value="")
+    public ResponseEntity<UserDto> create(@RequestBody UserDto user) {
+        try {
+            adminService.createUser(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (HttpServerErrorException.InternalServerError u) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @DeleteMapping("{id}")
-    public void deleteStudent(@Valid @PathVariable() int sId) {
-        adminService.deleteStudent(sId);
+    @PutMapping(value="")
+    public ResponseEntity<UserDto> update(@RequestBody UserDto user) {
+        try {
+            adminService.updateUser(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (HttpServerErrorException.InternalServerError u) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-
+    @DeleteMapping(value="{id}" )
+    public ResponseEntity<UserDto> delete(@PathVariable int id) {
+        try {
+            adminService.deleteUser(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (HttpServerErrorException.InternalServerError u) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

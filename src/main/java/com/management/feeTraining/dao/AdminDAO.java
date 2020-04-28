@@ -1,21 +1,15 @@
 package com.management.feeTraining.dao;
 
-import com.management.feeTraining.entities.Accountant;
-import com.management.feeTraining.entities.Student;
+import com.management.feeTraining.entities.User;
 
 import java.util.List;
 
 public interface AdminDAO {
 
-    List<Accountant> findAllAccountant();
-    List<Student> findAllStudent();
-    Accountant findByIdAccountant(int id);
-    Student findByIdStudent(int id);
-
-    void saveAccountant(Accountant accountant);
-    void saveStudent(Student student);
-
-    void deleteAccountantById(int id);
-    void deleteStudentById(int id);
+    public List<User> getUsers();
+    public User getUser(int id);
+    public void createUser(User user);
+    public void updateUser(User user);
+    public void deleteUser(int id);
 
 }

@@ -1,13 +1,17 @@
 package com.management.feeTraining.dao.Impl;
 
 import com.management.feeTraining.dao.StudentDAO;
+import com.management.feeTraining.dto.StudentDto;
 import com.management.feeTraining.entities.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
+@Transactional
 public class StudentDAOImpl implements StudentDAO {
 
     @Autowired
@@ -21,16 +25,14 @@ public class StudentDAOImpl implements StudentDAO {
         return session;
     }
 
-
-
     @Override
-    public Student findById(Long id) {
+    public StudentDto findById(Long id) {
 
-        return getSession().get(Student.class, id);
+        return getSession().get(StudentDto.class, id);
     }
 
     @Override
-    public void save(Student student) {
+    public void save(StudentDto student) {
 
         getSession().saveOrUpdate(student);
     }

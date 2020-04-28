@@ -1,64 +1,48 @@
 package com.management.feeTraining.Services;
 
 import com.management.feeTraining.dao.AdminDAO;
-import com.management.feeTraining.dao.StudentDAO;
-import com.management.feeTraining.dao.UserDAO;
-import com.management.feeTraining.dto.StudentDto;
-import com.management.feeTraining.entities.Accountant;
-import com.management.feeTraining.entities.Student;
+import com.management.feeTraining.dto.DtoBuilder;
+import com.management.feeTraining.dto.UserDto;
 import com.management.feeTraining.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
-
+@Service
+@Transactional
 public class AdminService {
 
     @Autowired
     private AdminDAO adminDAO;
 
-    @Autowired
-    private UserDAO userDAO;
+    public List<UserDto> getAllUsers() {
+        List<UserDto> users = new ArrayList<UserDto>();
 
-    @Autowired
-    private StudentDAO studentDAO;
+        for (User user: adminDAO.getUsers()) {
+            users.add(DtoBuilder.userToUserDTO(user));
+        }
 
-
-    public void save(StudentDto newStudent) {
-        Student student = new Student();
-        student.setName(newStudent.getName());
-        student.setEmail(newStudent.getEmail());
-
-        User s = new User();
-        s.setEmail(student.getEmail());
-        s.setPassword("123");
-
-        userDAO.save(s);
-        studentDAO.save(student);
+        return users;
     }
 
-    public List<Student> getAllStudents() {
-        return adminDAO.findAllStudent();
+    public UserDto getUserById(int id) {
+        User user = adminDAO.getUser(id);
+        return DtoBuilder.userToUserDTO(user);
     }
 
-    public void deleteStudent(int id) {
-        adminDAO.deleteStudentById(id);
+    public void createUser(UserDto user) {
+        adminDAO.createUser(DtoBuilder.userDTOToUser(user));
     }
 
-    public Student getStudent(int id) {
-        return adminDAO.findByIdStudent(id);
+    public void updateUser(UserDto user) {
+        adminDAO.updateUser(DtoBuilder.userDTOToUser(user));
+
     }
 
-    public void deleteAccountant(int id) {
-        adminDAO.deleteStudentById(id);
+    public void deleteUser(int id) {
+        adminDAO.deleteUser(id);
     }
-
-    public Accountant getAccountant(int id) {
-        return adminDAO.findByIdAccountant(id);
-    }
-
-    public void saveAccountant(Accountant accountant) {
-        adminDAO.saveAccountant(accountant);
-    }
-
 
 }

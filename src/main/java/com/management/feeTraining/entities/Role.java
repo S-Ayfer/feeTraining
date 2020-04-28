@@ -1,6 +1,6 @@
 package com.management.feeTraining.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     List<User> users;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "role",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Menu> menus;
 }
