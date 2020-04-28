@@ -64,5 +64,6 @@ public class HibernateConfiguration {
     HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
     hibernateTransactionManager.setSessionFactory(sessionFactory().getObject());
     return hibernateTransactionManager;
+    //ayfer yildiz
 }
 }
