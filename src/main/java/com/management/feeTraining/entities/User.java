@@ -22,12 +22,11 @@ public class User {
     private String lastName;
     private Date dob;
     private String email;
-    private boolean enabled;
     private int fee;
     private int feePaid;
     private int due;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable( name = "users_roles",
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"),
@@ -45,7 +44,6 @@ public class User {
         this.lastName = lastName;
         this.dob = dob;
         this.email = email;
-        this.enabled = enabled;
         this.fee = fee;
         this.feePaid = feePaid;
         this.due = due;
@@ -59,7 +57,6 @@ public class User {
         userDto.setFirstName(this.firstName);
         userDto.setLastName(this.lastName);
         userDto.setUsername(this.username);
-        userDto.setEnabled(this.enabled);
         userDto.setDob(this.dob);
         userDto.setFee(this.fee);
         userDto.setFeePaid(this.feePaid);
@@ -131,14 +128,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public int getFee() {

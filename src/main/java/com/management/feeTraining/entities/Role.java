@@ -12,7 +12,9 @@ public class Role {
     private int id;
     @Enumerated(EnumType.STRING)
     private RoleType name;
-    private String description;
+
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private List<Menu> menus;
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
@@ -21,13 +23,11 @@ public class Role {
 
     public Role(RoleType name, String description) {
         this.name = name;
-        this.description = description;
     }
 
     public Role(int id, RoleType name, String description, List<User> users) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.users = users;
     }
 
@@ -45,14 +45,6 @@ public class Role {
 
     public void setName(RoleType name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public List<User> getUsers() {

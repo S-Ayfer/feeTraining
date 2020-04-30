@@ -37,7 +37,6 @@ public class UserDto {
         user.setUsername(this.username);
         user.setPassword(this.password);
         user.setDob(this.dob);
-        user.setEnabled(this.enabled);
         user.setFee(this.fee);
         user.setFeePaid(this.feePaid);
         user.setDue(this.due);
