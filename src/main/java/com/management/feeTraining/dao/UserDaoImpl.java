@@ -3,26 +3,18 @@ package com.management.feeTraining.dao;
 import com.management.feeTraining.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
 
-    private static final Logger Logger = LoggerFactory.getLogger(UserDaoImpl.class);
-
     @Autowired
     private SessionFactory sf;
-
-    @Autowired
-    private EntityManagerFactory emf;
 
     public Session getSession() {
         Session session = sf.getCurrentSession();
