@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -22,9 +23,7 @@ public class User {
     private String lastName;
     private Date dob;
     private String email;
-    private int fee;
-    private int feePaid;
-    private int due;
+
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable( name = "users_roles",
@@ -44,9 +43,6 @@ public class User {
         this.lastName = lastName;
         this.dob = dob;
         this.email = email;
-        this.fee = fee;
-        this.feePaid = feePaid;
-        this.due = due;
         this.roles = roles;
     }
 
@@ -58,9 +54,6 @@ public class User {
         userDto.setLastName(this.lastName);
         userDto.setUsername(this.username);
         userDto.setDob(this.dob);
-        userDto.setFee(this.fee);
-        userDto.setFeePaid(this.feePaid);
-        userDto.setDue(this.due);
         userDto.setRoles(this.roles.stream().map(role -> role.getName().toString()).collect(Collectors.toList()));
         return userDto;
     }
@@ -128,30 +121,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getFee() {
-        return fee;
-    }
-
-    public void setFee(int fee) {
-        this.fee = fee;
-    }
-
-    public int getFeePaid() {
-        return feePaid;
-    }
-
-    public void setFeePaid(int feePaid) {
-        this.feePaid = feePaid;
-    }
-
-    public int getDue() {
-        return due;
-    }
-
-    public void setDue(int due) {
-        this.due = due;
     }
 
     public List<Role> getRoles() {
