@@ -1,13 +1,17 @@
 package com.management.feeTraining.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 
 @Entity
-@PrimaryKeyJoinColumn(referencedColumnName="id")
-public class Student extends User {
+public class Student  {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private int fee;
     private int feePaid;
     private int due;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
 }

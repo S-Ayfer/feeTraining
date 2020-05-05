@@ -24,6 +24,9 @@ public class User {
     private Date dob;
     private String email;
 
+    @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL)
+
+    private List<Student> students;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable( name = "users_roles",
